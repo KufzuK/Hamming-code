@@ -21,14 +21,16 @@ typedef int  type;
 
 /// add conditional compilation (char or inta data)
 
-typedef struct    data
+typedef struct     data
 {
-	type*         code;
-	type*    check_bit;
-	int         length;
-	int  check_bit_num;
+	type*          code;
+	type*     check_bit;
+	type* expanded_code;
+	int          length;
+	int   check_bit_num;
+	int       total_len;
 
-}                 data;
+}                  data;
 
 
 
@@ -38,11 +40,18 @@ data*  rand_fill_code(data*     data);
 
 data*          encode(data*   signal);
 
-data*            harm(data*   signal);
+int              harm(data*   signal);
 
 int            decode(data*   signal);
 
-int   calc_check_bits(data*   signal);
+int   calc_check_bits(int        len);
+
+void       destructor(data*   signal);
+
+data*   struct_decode(data*   signal);
+
+type   def_bit_val   (data*   signal, int number);
 
 int  extra_check_bits(       int len);
 
+data*    array_decode(type*     code);
