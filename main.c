@@ -7,64 +7,33 @@ int main()
 
 	printf("%d %d \n", signal->length, signal->check_bit_num);
 
-	printf("signal \n");
-	for (int i = 0; i < signal->length; i++)
-	{
-		printf("%c", signal->code[i]);
-	}
-	
-	printf("\n");
-	
-	printf("wide signal \n");
+	printf("before \n");
 
-	for (int i = 0; i < signal->total_len; i++)
-	{
-		printf("%c", signal->expanded_code[i]);
-	}
-	printf("\n");
-
+	print_data(signal);
 
 	encode(signal);
 
-
-	printf("only bits \n");
-
-	for (int i = 0; i < signal->check_bit_num; i++)
-	{
-		printf("%c", signal->check_bit[i]);
-	}
-	
-	printf("\n");
-	
-	printf("wide signal after coding\n");
-
-	for (int i = 0; i < signal->total_len; i++)
-	{
-		printf("%c", signal->expanded_code[i]);
-	}
-	printf("\n");
+	printf("after \n");
+	print_data(signal);
 
 	printf("now harm\n");
 
+///**********************************************************
 	int err_bit = harm(signal);
 
 	
 	printf("signal, err in  %d \n", err_bit);
 
-	for (int i = 0; i < signal->length; i++)
-	{
-		printf("%c", signal->code[i]);
-	}
+	print_data(signal);
 
-	printf("\n");
+
+	///-*********************************************************
 	struct_decode(signal);
 	
 	printf("now decoded\n");
-	for (int i = 0; i < signal->length; i++)
-	{
-		printf("%c", signal->code[i]);
-	}
+	
 
+	print_data(signal);
 
 /*	while (1)
 	{

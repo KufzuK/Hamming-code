@@ -4,7 +4,7 @@ int MAX_BIT_NUM   = 20;
 
 int calc_check_bits(int len)
 {
-	if (len <= 1)
+	if (len < 1)
 		return -1;
 
 
@@ -216,13 +216,15 @@ data* encode(data* signal)
 int harm(data* signal)
 {
 	int  err_bit = rand() % signal->length;
+//	printf("err_bit = %d, length = %d \n", err_bit, signal->length);
 	int long_bit = err_bit + calc_check_bits(err_bit + 1);
 
+//	printf("long_bit = %d, long_length = %d \n", long_bit, signal->total_len);
 	if (signal->code[err_bit] == '1')
 	{
 		signal->code[err_bit]           = '0';
 		signal->expanded_code[long_bit] = '0';
-		return signal;
+		return err_bit;
 	}
 
 	signal->code[err_bit]           = '1';
@@ -243,22 +245,40 @@ data* struct_decode(data* signal)
 	}
 
 
+	printf(" befroe only bits \n");
+
+	for (int i = 0; i < signal->check_bit_num; i++)
+	{
+		printf("%c", signal->check_bit[i]);
+	}
+	
+	printf("\n");
 	encode(signal);	
 
-	int err_bit = 0;
+	printf(" after  only bits \n");
+
+	for (int i = 0; i < signal->check_bit_num; i++)
+	{
+		printf("%c", signal->check_bit[i]);
+	}
+	
+	printf("\n");
+	int  err_bit = 0;
+	int long_bit = 1;
 
 	for (int i = 0; i < signal->check_bit_num; i++)
 	{
 		if (init_bits[i] != signal->check_bit[i])
 		{
-			err_bit += i + 1;
+			err_bit += long_bit;
 		}
+		long_bit *= 2;
 	}
 	
 	free(init_bits);
 	
 	err_bit--;
-	int long_bit = err_bit + calc_check_bits(err_bit + 1);
+	//int long_bit = err_bit + calc_check_bits(err_bit + 1);
 
 
 	if (err_bit < 0)  
@@ -285,3 +305,32 @@ data* array_decode(type* code)
 {
 
 }*/
+void print_line(type* line, int len)
+{
+	for (int i = 0; i < len; i++)
+	{
+		printf("%c", line[i]);
+	}
+	printf("\n");
+}
+
+void print_data(data* signal)
+{
+	printf("************start of data************** \n");
+	printf("the code \n");
+	print_line(signal->code, signal->length);
+
+	printf("\n");
+	printf("the expanded code \n");
+
+	print_line(signal->expanded_code, signal->total_len);
+	printf("\n");
+
+	printf("only the bits \n");
+	
+	print_line(signal->check_bit, signal->check_bit_num);
+	
+	printf("\n");
+	printf("************  end of data************** \n");
+	printf("\n");
+}

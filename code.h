@@ -55,3 +55,7 @@ type   def_bit_val   (data*   signal, int number);
 int  extra_check_bits(       int len);
 
 data*    array_decode(type*     code);
+
+void print_line(type* line, int len);
+
+void print_data(data* signal);
