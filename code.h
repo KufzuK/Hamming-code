@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 
 /// if int not defined, initial data is in char*
@@ -32,6 +33,12 @@ typedef struct     data
 
 }                  data;
 
+enum
+{
+	CODE      = 1,
+	WIDE_CODE = 2,
+	BITS      = 3
+} print_line_var;
 
 
 data*             create_empty_code();
@@ -40,7 +47,7 @@ data*  rand_fill_code(data*     data);
 
 data*          encode(data*   signal);
 
-int              harm(data*   signal);
+int              harm(data*   signal, int err);
 
 int            decode(data*   signal);
 
@@ -59,3 +66,9 @@ data*    array_decode(type*     code);
 void print_line(type* line, int len);
 
 void print_data(data* signal);
+void color_data(data* signal, int err_bit);
+void color_print_line(type* line, int len, int type, int err_bit);
+
+int harm_old(data* signal, int err);
+void nul_bits(data* signal);
+void struct_rem_bits(data* signal);
